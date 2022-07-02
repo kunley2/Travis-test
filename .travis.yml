@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - 13
+services: docker
+
+install: -echo "nothing needs to be installed"
+
+before-script:
+  - echo "no tests"
+
+script:
+  - docker build -t simple-node:tr .
+  - docker tag simple-node:tr 204639/simple-node
+
+after-success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push 204639/simple-node
